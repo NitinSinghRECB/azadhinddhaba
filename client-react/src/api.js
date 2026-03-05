@@ -20,3 +20,11 @@ export const getImageUrl = (path) => {
         : 'https://azadhinddhaba-fion.vercel.app/';
     return `${backendBase}${path}`;
 };
+
+
+const API_BASE =
+  import.meta.env.MODE === "production"
+    ? "https://azad-hind-dhaba-backend.onrender.com/api"
+    : "/api";
+
+export default API_BASE;

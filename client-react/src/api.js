@@ -6,7 +6,7 @@ const IS_DEV = import.meta.env.DEV;
 
 export const API_URL = IS_DEV
     ? '/api'  // Use Vite proxy in development
-    : (import.meta.env.VITE_API_URL || 'https://azad-hind-dhaba.onrender.com/api');
+    : (import.meta.env.VITE_API_URL || 'https://azadhinddhaba.onrender.com');
 
 // For image URLs that come from the backend (e.g. /uploads/xxx.jpg)
 export const getImageUrl = (path) => {
@@ -16,6 +16,6 @@ export const getImageUrl = (path) => {
     // In production, prepend the backend URL
     const backendBase = import.meta.env.VITE_API_URL
         ? import.meta.env.VITE_API_URL.replace('/api', '')
-        : 'https://azad-hind-dhaba.onrender.com';
+        : 'https://azadhinddhaba.onrender.com';
     return `${backendBase}${path}`;
 };

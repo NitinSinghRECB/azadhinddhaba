@@ -8,19 +8,31 @@ export function AuthProvider({ children }) {
     const [username, setUsername] = useState('Admin');
 
     const login = async (user, pass) => {
-        const res = await fetch(`${API_URL}/admin/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: user, password: pass })
-        });
-        const data = await res.json();
-        if (res.ok) {
-            setToken(data.token);
-            setUsername(data.username);
-            localStorage.setItem('admin_token', data.token);
-            return { success: true };
+        try {
+            const res = await fetch(`${API_URL}/admin/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+
+            let data = {};
+            try {
+                data = await res.json();
+            } catch (err) {
+                data = {};
+            }
+
+            if (res.ok) {
+                setToken(data.token);
+                setUsername(data.username);
+                localStorage.setItem('admin_token', data.token);
+                return { success: true };
+            }
+
+            return { success: false, message: data.message || 'Login failed' };
+        } catch (err) {
+            return { success: false, message: 'Backend unavailable. Please try again.' };
         }
-        return { success: false, message: data.message };
     };
 
     const logout = () => {

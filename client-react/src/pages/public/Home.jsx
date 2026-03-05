@@ -4,6 +4,7 @@ import TrustBar from '../../components/ui/TrustBar';
 import MenuSection from '../../components/ui/MenuSection';
 import GallerySection from '../../components/ui/GallerySection';
 import AboutSection from '../../components/ui/AboutSection';
+import API_BASE from "../../api";
 
 const Home = () => {
     return (
@@ -26,3 +27,13 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+
+useEffect(() => {
+  fetch(`${API_BASE}/menu`)
+    .then(res => res.json())
+    .then(data => setMenu(data));
+}, []);

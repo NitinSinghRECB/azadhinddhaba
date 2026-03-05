@@ -147,7 +147,7 @@ const menuData = [
 
 async function seed() {
     try {
-        await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://azadrest:restazad123@cluster0.wsosaft.mongodb.net/?appName=Cluster0');
+        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/azadhinddhaba');
         console.log('Connected to MongoDB');
 
         // Clear existing data

@@ -8,8 +8,13 @@ const Footer = () => {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-brand">
-                        <h3>Azad Hind</h3>
-                        <p>Dhaba & Restaurant</p>
+                        <div className="footer-brand-head">
+                            <img src="/logo.png" alt="Azad Hind Dhaba Logo" className="footer-brand-logo" />
+                            <div>
+                                <h3>Azad Hind</h3>
+                                <p>Dhaba & Restaurant</p>
+                            </div>
+                        </div>
                         <p className="footer-desc">Authentic North Indian food, fast service, and a welcoming dhaba experience on the highway. Serving happiness since decades.</p>
                     </div>
 
@@ -44,6 +49,12 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p>&copy; {currentYear} Azad Hind Dhaba & Restaurant. All rights reserved.</p>
+                    <p className="footer-devs">
+                        Developed by{' '}
+                        <a href="https://www.linkedin.com/in/nitin-kumar-singh-a29464205/" target="_blank" rel="noreferrer">Nitin Kumar Singh</a>
+                        {' '}and{' '}
+                        <a href="https://www.linkedin.com/in/virat-pawar-1b6930334/" target="_blank" rel="noreferrer">Virat Pawar</a>
+                    </p>
                     <p><Link to="/admin/login" className="admin-link">Admin Login</Link></p>
                 </div>
             </div>

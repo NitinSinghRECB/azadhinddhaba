@@ -29,7 +29,7 @@ const Login = () => {
     return (
         <div className="login-screen" style={{ display: 'flex', minHeight: '100vh' }}>
             <div className="login-card">
-                <div className="login-logo">🍛</div>
+                <img src="/logo.png" alt="Azad Hind Dhaba Logo" className="login-logo" />
                 <h1>Admin Panel</h1>
                 <p>Azad Hind Dhaba & Restaurant</p>
                 <form onSubmit={handleLogin}>

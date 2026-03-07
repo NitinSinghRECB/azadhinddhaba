@@ -103,7 +103,13 @@
 }
 
 .login-logo {
-    font-size: 3rem;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(226, 232, 240, 0.22);
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 16px;
 }
 
@@ -268,8 +274,12 @@
     border-bottom: 1px solid var(--admin-border);
 }
 
-.admin-layout .sidebar-header span {
-    font-size: 2rem;
+.admin-layout .sidebar-logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(226, 232, 240, 0.18);
 }
 
 .admin-layout .sidebar-header h3 {
@@ -361,9 +371,23 @@
 }
 
 .admin-layout .admin-header h2 {
-    flex: 1;
     font-size: 1.2rem;
     color: var(--admin-text) !important;
+}
+
+.admin-layout .admin-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.admin-layout .admin-header-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(226, 232, 240, 0.18);
 }
 
 .admin-layout .header-actions {

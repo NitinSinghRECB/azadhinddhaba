@@ -14,35 +14,36 @@ const AdminLayout = () => {
 
     return (
         <div className="admin-layout" style={{ minHeight: '100vh' }}>
-            {/* Sidebar */}
             <aside className="sidebar">
                 <div className="sidebar-header">
-                    <span>🍛</span>
+                    <img src="/logo.png" alt="Azad Hind Dhaba Logo" className="sidebar-logo" />
                     <div>
                         <h3>Azad Hind</h3>
                         <small>Admin Panel</small>
                     </div>
                 </div>
                 <nav className="sidebar-nav">
-                    <NavLink to="/admin" end className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>📊</span> Dashboard</NavLink>
-                    <NavLink to="/admin/orders" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>📦</span> Orders</NavLink>
-                    <NavLink to="/admin/menu" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>🍽️</span> Menu</NavLink>
-                    <NavLink to="/admin/gallery" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>📸</span> Gallery</NavLink>
-                    <NavLink to="/admin/settings" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>⚙️</span> Settings</NavLink>
+                    <NavLink to="/admin" end className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>{'\u{1F4CA}'}</span> Dashboard</NavLink>
+                    <NavLink to="/admin/orders" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>{'\u{1F4E6}'}</span> Orders</NavLink>
+                    <NavLink to="/admin/menu" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>{'\u{1F37D}\uFE0F'}</span> Menu</NavLink>
+                    <NavLink to="/admin/gallery" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>{'\u{1F4F8}'}</span> Gallery</NavLink>
+                    <NavLink to="/admin/settings" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}><span>{'\u2699\uFE0F'}</span> Settings</NavLink>
                 </nav>
                 <div className="sidebar-footer">
-                    <a href="/" target="_blank" className="nav-item"><span>🌐</span> View Website</a>
+                    <a href="/" target="_blank" className="nav-item"><span>{'\u{1F310}'}</span> View Website</a>
                     <button onClick={handleLogout} className="nav-item" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', color: 'inherit' }}>
-                        <span>🚪</span> Logout
+                        <span>{'\u{1F6AA}'}</span> Logout
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content */}
             <main className="admin-main">
                 <header className="admin-header">
-                    <button className="sidebar-toggle">☰</button>
-                    <h2>Admin Panel</h2>
+                    <button className="sidebar-toggle">{'\u2630'}</button>
+                    <div className="admin-header-title">
+                        <img src="/logo.png" alt="Azad Hind Dhaba Logo" className="admin-header-logo" />
+                        <h2>Admin Panel</h2>
+                    </div>
                     <div className="header-actions">
                         <span>{username}</span>
                     </div>

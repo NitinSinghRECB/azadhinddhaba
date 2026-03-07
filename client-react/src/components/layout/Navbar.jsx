@@ -18,7 +18,7 @@ const Navbar = ({ onCartClick }) => {
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="nav-container">
                 <a href="/" className="nav-logo">
-                    <span className="logo-icon">🍛</span>
+                    <img src="/logo.png" alt="Azad Hind Dhaba Logo" className="logo-icon" />
                     <div>
                         <span className="logo-name">Azad Hind</span>
                         <span className="logo-tag">Dhaba & Restaurant</span>
@@ -36,7 +36,7 @@ const Navbar = ({ onCartClick }) => {
                         onClick={onCartClick}
                         aria-label="Open Cart"
                     >
-                        🛒 <span className="cart-count">{cartCount}</span>
+                        {'\u{1F6D2}'} <span className="cart-count">{cartCount}</span>
                     </button>
                 </div>
             </div>

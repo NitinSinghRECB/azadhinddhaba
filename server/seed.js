@@ -163,16 +163,16 @@ async function seed() {
         console.log(`✅ Seeded ${itemsWithSort.length} menu items`);
 
         // Seed admin
-        const admin = new Admin({ username: 'admin', password: 'admin123' });
+        const admin = new Admin({ username: 'azad', password: 'azadbharat' });
         await admin.save();
-        console.log('✅ Created admin user (username: admin, password: admin123)');
+        console.log('✅ Created admin user (username: azad, password: azadbharat)');
 
         // Seed settings
         await Settings.create({
             freeDeliveryRadius: 1,
             deliveryChargePerKm: 10,
             maxDeliveryRadius: 15,
-            whatsappNumber: '919473996773',
+            whatsappNumber: '919598181082',
             isOpen: true,
             openTime: '07:00',
             closeTime: '23:00'

@@ -4,9 +4,10 @@ const MenuItem = require('../models/MenuItem');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
+const { uploadDir, toPublicUploadPath } = require('../config/uploads');
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
+    destination: (req, file, cb) => cb(null, uploadDir),
     filename: (req, file, cb) => {
         const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
         cb(null, uniqueName);
@@ -42,7 +43,7 @@ router.get('/categories', async (req, res) => {
 router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
         const data = { ...req.body };
-        if (req.file) data.image = '/uploads/' + req.file.filename;
+        if (req.file) data.image = toPublicUploadPath(req.file.filename);
         if (data.price) data.price = Number(data.price);
         if (data.priceHalf) data.priceHalf = Number(data.priceHalf);
         if (data.priceFull) data.priceFull = Number(data.priceFull);
@@ -62,7 +63,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
     try {
         const data = { ...req.body };
-        if (req.file) data.image = '/uploads/' + req.file.filename;
+        if (req.file) data.image = toPublicUploadPath(req.file.filename);
         if (data.price) data.price = Number(data.price);
         if (data.priceHalf) data.priceHalf = Number(data.priceHalf) || null;
         if (data.priceFull) data.priceFull = Number(data.priceFull) || null;

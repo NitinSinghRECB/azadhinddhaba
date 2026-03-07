@@ -1,0 +1,4 @@
+# Runtime upload storage (do not commit generated images)
+server/storage/uploads/
+server/uploads/*
+!server/uploads/.gitkeep

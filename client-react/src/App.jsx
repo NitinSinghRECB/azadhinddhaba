@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import PublicLayout from './components/layout/PublicLayout';
 import AdminLayout from './components/layout/AdminLayout';
 
@@ -20,9 +20,28 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const DeepLinkRedirectBridge = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const redirectPath = params.get('redirect');
+
+    if (!redirectPath || !redirectPath.startsWith('/')) {
+      return;
+    }
+
+    navigate(redirectPath, { replace: true });
+  }, [location.search, navigate]);
+
+  return null;
+};
+
 function App() {
   return (
     <BrowserRouter>
+      <DeepLinkRedirectBridge />
       <Routes>
         {/* Public Website */}
         <Route path="/" element={<PublicLayout />}>

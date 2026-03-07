@@ -44,6 +44,34 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// GET order stats (admin)
+router.get('/stats/summary', auth, async (req, res) => {
+    try {
+        const totalOrders = await Order.countDocuments();
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const todayOrders = await Order.countDocuments({ createdAt: { $gte: todayStart } });
+        const pendingOrders = await Order.countDocuments({ status: 'pending' });
+        const totalRevenue = await Order.aggregate([
+            { $match: { paymentStatus: 'completed' } },
+            { $group: { _id: null, total: { $sum: '$total' } } }
+        ]);
+        const todayRevenue = await Order.aggregate([
+            { $match: { paymentStatus: 'completed', createdAt: { $gte: todayStart } } },
+            { $group: { _id: null, total: { $sum: '$total' } } }
+        ]);
+        res.json({
+            totalOrders,
+            todayOrders,
+            pendingOrders,
+            totalRevenue: totalRevenue[0]?.total || 0,
+            todayRevenue: todayRevenue[0]?.total || 0
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // GET single order (admin)
 router.get('/:id', auth, async (req, res) => {
     try {
@@ -85,34 +113,6 @@ router.post('/verify-payment', async (req, res) => {
             });
         }
         res.json({ success: true, message: 'Payment verified' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// GET order stats (admin)
-router.get('/stats/summary', auth, async (req, res) => {
-    try {
-        const totalOrders = await Order.countDocuments();
-        const todayStart = new Date();
-        todayStart.setHours(0, 0, 0, 0);
-        const todayOrders = await Order.countDocuments({ createdAt: { $gte: todayStart } });
-        const pendingOrders = await Order.countDocuments({ status: 'pending' });
-        const totalRevenue = await Order.aggregate([
-            { $match: { paymentStatus: 'completed' } },
-            { $group: { _id: null, total: { $sum: '$total' } } }
-        ]);
-        const todayRevenue = await Order.aggregate([
-            { $match: { paymentStatus: 'completed', createdAt: { $gte: todayStart } } },
-            { $group: { _id: null, total: { $sum: '$total' } } }
-        ]);
-        res.json({
-            totalOrders,
-            todayOrders,
-            pendingOrders,
-            totalRevenue: totalRevenue[0]?.total || 0,
-            todayRevenue: todayRevenue[0]?.total || 0
-        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

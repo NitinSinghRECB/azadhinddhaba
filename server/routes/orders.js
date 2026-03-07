@@ -129,3 +129,6 @@ router.delete('/', auth, async (req, res) => {
 });
 
 module.exports = router;
+
+
+///this is only commented for testing purpose, to clear all orders from database, use with caution

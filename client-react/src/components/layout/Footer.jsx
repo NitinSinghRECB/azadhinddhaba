@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -43,7 +44,7 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p>&copy; {currentYear} Azad Hind Dhaba & Restaurant. All rights reserved.</p>
-                    <p><a href="/admin/login" className="admin-link">Admin Login</a></p>
+                    <p><Link to="/admin/login" className="admin-link">Admin Login</Link></p>
                 </div>
             </div>
         </footer>

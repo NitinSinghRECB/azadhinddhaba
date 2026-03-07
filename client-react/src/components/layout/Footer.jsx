@@ -52,8 +52,10 @@ const Footer = () => {
                     <p className="footer-devs">
                         Developed by{' '}
                         <a href="https://www.linkedin.com/in/nitin-kumar-singh-a29464205/" target="_blank" rel="noreferrer">Nitin Kumar Singh</a>
-                        {' '}and{' '}
+                        {' '},{' '}
                         <a href="https://www.linkedin.com/in/virat-pawar-1b6930334/" target="_blank" rel="noreferrer">Virat Pawar</a>
+                        {' '} and {' '}
+                        <a href="https://www.linkedin.com/in/aditya-singh-7106a5369/" target="_blank" rel="noreferrer">Aditya Kumar Singh</a>
                     </p>
                     <p><Link to="/admin/login" className="admin-link">Admin Login</Link></p>
                 </div>

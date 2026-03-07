@@ -45,7 +45,7 @@ const PublicLayout = () => {
             {/* Sticky Floating Action Buttons — bottom left */}
             <div className="floating-fabs">
                 <a
-                    href="https://wa.me/919473996773"
+                    href="https://wa.me/919598181082"
                     target="_blank"
                     rel="noreferrer"
                     className="fab fab-whatsapp"

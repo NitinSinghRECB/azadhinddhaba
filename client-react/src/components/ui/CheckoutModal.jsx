@@ -63,7 +63,7 @@ const CheckoutModal = ({ onClose, cartTotal }) => {
                 const msg = `🍛 *New Order — Azad Hind Dhaba*\n\n👤 *Name:* ${customerName}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n\n📋 *Items:*\n${itemsList}\n\n💰 *Subtotal:* ₹${cartTotal}\n🚚 *Delivery:* ${isFreeDelivery ? 'FREE' : `₹${deliveryFee}`}\n💵 *Total: ₹${grandTotal}*\n${notes ? `\n📝 *Note:* ${notes}` : ''}`;
 
                 // Open WhatsApp with the order message
-                window.open(`https://wa.me/919473996773?text=${encodeURIComponent(msg)}`, '_blank');
+                window.open(`https://wa.me/919598181082?text=${encodeURIComponent(msg)}`, '_blank');
 
                 clearCart();
                 setSuccess(true);

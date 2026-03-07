@@ -45,6 +45,10 @@ const resolveStoredUploadPath = (storedPath) => {
     if (!storedPath || typeof storedPath !== 'string') return null;
     const normalized = storedPath.replace(/\\/g, '/').trim();
 
+    if (normalized.startsWith('/api/uploads/') || normalized.startsWith('api/uploads/')) {
+        return null;
+    }
+
     if (normalized.startsWith('/uploads/') || normalized.startsWith('uploads/')) {
         return path.join(uploadDir, path.basename(normalized));
     }

@@ -4,7 +4,8 @@ const MenuItem = require('../models/MenuItem');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
-const { uploadDir, toPublicUploadPath } = require('../config/uploads');
+const { uploadDir } = require('../config/uploads');
+const { persistUploadedFile, removeStoredImage } = require('../config/imageStorage');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, uploadDir),
@@ -14,6 +15,14 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+
+const cleanupImage = async (imagePath) => {
+    try {
+        await removeStoredImage(imagePath);
+    } catch (cleanupErr) {
+        console.error(`Image cleanup failed: ${cleanupErr.message}`);
+    }
+};
 
 // GET all menu items (public)
 router.get('/', async (req, res) => {
@@ -43,7 +52,7 @@ router.get('/categories', async (req, res) => {
 router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
         const data = { ...req.body };
-        if (req.file) data.image = toPublicUploadPath(req.file.filename);
+        if (req.file) data.image = await persistUploadedFile(req.file, 'menu');
         if (data.price) data.price = Number(data.price);
         if (data.priceHalf) data.priceHalf = Number(data.priceHalf);
         if (data.priceFull) data.priceFull = Number(data.priceFull);
@@ -62,8 +71,13 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 // PUT update menu item (admin)
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
     try {
+        const existingItem = await MenuItem.findById(req.params.id);
+        if (!existingItem) return res.status(404).json({ message: 'Item not found' });
+
         const data = { ...req.body };
-        if (req.file) data.image = toPublicUploadPath(req.file.filename);
+        const previousImage = existingItem.image;
+
+        if (req.file) data.image = await persistUploadedFile(req.file, 'menu');
         if (data.price) data.price = Number(data.price);
         if (data.priceHalf) data.priceHalf = Number(data.priceHalf) || null;
         if (data.priceFull) data.priceFull = Number(data.priceFull) || null;
@@ -71,9 +85,15 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
         if (data.available !== undefined) data.available = data.available !== 'false';
         if (data.isVeg !== undefined) data.isVeg = data.isVeg !== 'false';
         if (data.popular !== undefined) data.popular = data.popular === 'true';
-        const item = await MenuItem.findByIdAndUpdate(req.params.id, data, { new: true });
-        if (!item) return res.status(404).json({ message: 'Item not found' });
-        res.json(item);
+
+        Object.assign(existingItem, data);
+        await existingItem.save();
+
+        if (req.file && previousImage && previousImage !== existingItem.image) {
+            await cleanupImage(previousImage);
+        }
+
+        res.json(existingItem);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -84,6 +104,9 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const item = await MenuItem.findByIdAndDelete(req.params.id);
         if (!item) return res.status(404).json({ message: 'Item not found' });
+
+        await cleanupImage(item.image);
+
         res.json({ message: 'Item deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

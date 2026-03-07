@@ -4,8 +4,8 @@ const Gallery = require('../models/Gallery');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
-const { uploadDir, toPublicUploadPath, resolveStoredUploadPath } = require('../config/uploads');
+const { uploadDir } = require('../config/uploads');
+const { persistUploadedFile, removeStoredImage } = require('../config/imageStorage');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, uploadDir),
@@ -15,6 +15,14 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
+
+const cleanupImage = async (imagePath) => {
+    try {
+        await removeStoredImage(imagePath);
+    } catch (cleanupErr) {
+        console.error(`Image cleanup failed: ${cleanupErr.message}`);
+    }
+};
 
 // GET all gallery items (public)
 router.get('/', async (req, res) => {
@@ -33,11 +41,13 @@ router.get('/', async (req, res) => {
 router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ message: 'Image is required' });
+
         const item = new Gallery({
             title: req.body.title || 'Untitled',
             category: req.body.category || 'other',
-            image: toPublicUploadPath(req.file.filename)
+            image: await persistUploadedFile(req.file, 'gallery')
         });
+
         await item.save();
         res.status(201).json(item);
     } catch (err) {
@@ -50,9 +60,9 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const item = await Gallery.findByIdAndDelete(req.params.id);
         if (!item) return res.status(404).json({ message: 'Image not found' });
-        // Delete file from disk
-        const filePath = resolveStoredUploadPath(item.image);
-        if (filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
+        await cleanupImage(item.image);
+
         res.json({ message: 'Image deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

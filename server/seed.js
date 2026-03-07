@@ -163,9 +163,9 @@ async function seed() {
         console.log(`✅ Seeded ${itemsWithSort.length} menu items`);
 
         // Seed admin
-        const admin = new Admin({ username: 'azad', password: 'azadbharat' });
+        const admin = new Admin({ username: 'admin', password: 'admin' });
         await admin.save();
-        console.log('✅ Created admin user (username: azad, password: azadbharat)');
+        console.log('✅ Created admin user (username: admin, password: admin)');
 
         // Seed settings
         await Settings.create({

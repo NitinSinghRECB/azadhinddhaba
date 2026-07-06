@@ -2,3 +2,4 @@
 server/storage/uploads/
 server/uploads/*
 !server/uploads/.gitkeep
+server/.env
